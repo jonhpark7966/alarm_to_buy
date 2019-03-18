@@ -19,3 +19,5 @@ for li in raw_lists:
         print(title)
     registered_time = (li.find("nobr", {"class": "eng list_vspace"}).text)
     link = (li.find("td", {"valign":"middle"}).find("a")["href"])
+    list_num = li.find("td", {"class", "eng list_vspace"}).text
+    print(list_num)
