@@ -3,11 +3,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-class Crawler:
-    def find(keyword):
-        assert(0); # pure virtual!
-
-
 # NOTES: found_list_ consists of "list number (int)", "title", "link"
 # USAGE: just call "find(KEYWORD)"
 class PpCrawler:

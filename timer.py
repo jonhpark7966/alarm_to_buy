@@ -2,6 +2,7 @@
 
 from time import sleep
 from crawler.crawler import PpCrawler
+from alarm.mail import MailSender
 
 def filterLatest(latest_num, found_list):
     ret = []
@@ -15,17 +16,27 @@ def filterLatest(latest_num, found_list):
     return ret
 
 
-#PPOMPPU!
+
+#####################
+#       MAIN!       #
+#####################
+
+
+# init PPOMPPU!
 pp = PpCrawler()
 pp_latest = [-1]
+
+# init mail sender
+m_sender = MailSender()
+m_sender.addMailingList(['jonhpark7966@gmail.com'])
 
 while True:
     found_list = pp.find("상품권")
     filtered_list = filterLatest(pp_latest, found_list)
 
-    #for test!
-    print(pp_latest)
+    # send mail!
     for elm in filtered_list:
         print(elm)
+        m_sender.sendMail(elm[1], elm[1])
 
-    sleep(20)
+    sleep(300)

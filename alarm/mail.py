@@ -3,13 +3,26 @@
 import smtplib
 from email.mime.text import MIMEText
 
-smtp = smtplib.SMTP('smtp.gmail.com', 587)
-smtp.starttls()
-smtp.login('skylarknews0610@gmail.com', 'password')
+class MailSender:
+    def __init__(self):
+        self.mailing_list_ = []
+        self.sender_ = 'skylarknews0610@gmail.com'
+        self.passwd_ = 'passwd'
 
-msg = MIMEText("테스트")
-msg['Subject'] = "test"
-msg['To'] = "jonhpark7966@gmail.com"
-smtp.sendmail('skylarknews0610@gmail.com', 'jonhpark7966@gmail.com', msg.as_string())
+    def addMailingList(self, mailing_list):
+        self.mailing_list_.extend(mailing_list)
 
-smtp.quit()
+    def sendMail(self, title, contents):
+
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.starttls()
+        smtp.login(self.sender_, self.passwd_)
+
+        msg = MIMEText(contents)
+        msg['Subject'] = title
+
+        for to in self.mailing_list_:
+            msg['To'] = to
+            smtp.sendmail(self.sender_, to, msg.as_string())
+
+        smtp.quit()
