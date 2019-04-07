@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+import sys
+import getopt
+
 from time import sleep
 from crawler.crawler import PpCrawler
 from alarm.mail_sender import MailSender
@@ -17,27 +20,64 @@ def filterLatest(latest_num, found_list):
     return ret
 
 
-
 #####################
 #       MAIN!       #
 #####################
 
+def main():
 
-# init PPOMPPU!
-pp = PpCrawler()
-pp_latest = [-1]
+    # default params for main
+    mailSenderId = "abc@gmail.com"
+    mailSenderPasswd = "deadbeef"
+    mailAddressee = []
+    ppKeyword = "상품권"
 
-# init mail sender
-m_sender = MailSender()
-m_sender.addAddressees(['jonhpark7966@gmail.com'])
+    # parse arguments
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["MailSenderId=", "MailSenderPasswd=","MailAddressee=", "PpomppuKeyword=", "help"])
+    except:
+        print(str(err))
+        help()
+        sys.exit(1)
 
-while True:
-    found_list = pp.find("상품권")
-    filtered_list = filterLatest(pp_latest, found_list)
+    for opt, arg in opts:
+        if(opt == "--MailSenderId"):
+            mailSenderId = arg
+            print("Mail Sender: " + mailSenderId)
+        elif(opt == "--MailSenderPasswd"):
+            mailSenderPasswd = arg
+            print("Mail Sender Password: " + mailSenderPasswd)
+        elif(opt == "--MailAddressee"):
+            mailAddressee.append(arg)
+            print("Mail Addressee: " + arg)
+        elif(opt == "--PpomppuKeyword"):
+            ppKeyword = arg
+            print("Ppomppu Keyword: " + ppKeyword)
+        elif(opt == "-h") or (opt == "--help"):
+            print("Refer Code for Now!")
+            sys.exit(1)
 
-    # send mail!
-    for elm in filtered_list:
-        print(elm)
-        m_sender.send(elm[1], elm[1])
 
-    sleep(300)
+
+    # init PPOMPPU!
+    pp = PpCrawler()
+    pp_latest = [-1]
+
+    # init mail sender
+    m_sender = MailSender(mailSenderId,mailSenderPasswd)
+    m_sender.addAddressees(mailAddressee)
+
+    while True:
+        found_list = pp.find(ppKeyword)
+        filtered_list = filterLatest(pp_latest, found_list)
+
+        # send mail!
+        for elm in filtered_list:
+            print(elm)
+            m_sender.send(elm[1], elm[1])
+
+        sleep(300)
+
+
+if __name__ == '__main__':
+    main()
