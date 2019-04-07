@@ -3,16 +3,14 @@
 import smtplib
 from email.mime.text import MIMEText
 
-class MailSender:
+from alarm.sender import Sender
+
+class MailSender(Sender):
     def __init__(self):
-        self.mailing_list_ = []
         self.sender_ = 'skylarknews0610@gmail.com'
         self.passwd_ = 'passwd'
 
-    def addMailingList(self, mailing_list):
-        self.mailing_list_.extend(mailing_list)
-
-    def sendMail(self, title, contents):
+    def send(self, title, contents):
 
         smtp = smtplib.SMTP('smtp.gmail.com', 587)
         smtp.starttls()
@@ -21,7 +19,7 @@ class MailSender:
         msg = MIMEText(contents)
         msg['Subject'] = title
 
-        for to in self.mailing_list_:
+        for to in self.addressees_:
             msg['To'] = to
             smtp.sendmail(self.sender_, to, msg.as_string())
 

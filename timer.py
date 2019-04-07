@@ -28,7 +28,7 @@ pp_latest = [-1]
 
 # init mail sender
 m_sender = MailSender()
-m_sender.addMailingList(['jonhpark7966@gmail.com'])
+m_sender.addAddressees(['jonhpark7966@gmail.com'])
 
 while True:
     found_list = pp.find("상품권")
@@ -37,6 +37,6 @@ while True:
     # send mail!
     for elm in filtered_list:
         print(elm)
-        m_sender.sendMail(elm[1], elm[1])
+        m_sender.send(elm[1], elm[1])
 
     sleep(300)
