@@ -2,7 +2,7 @@
 
 from time import sleep
 from crawler.crawler import PpCrawler
-from alarm.mail import MailSender
+from alarm.mail_sender import MailSender
 
 # NOTES: each elements of found_list should have "list number, title, link"
 def filterLatest(latest_num, found_list):
