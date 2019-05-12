@@ -3,6 +3,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+from selenium import webdriver
+
+
 class Crawler:
     url_ = ""
     found_list_ = []
@@ -37,3 +40,11 @@ class PpCrawler(Crawler):
             if keyword in title:
                 self.found_list_.append([int(list_num), title, link])
         return self.found_list_
+
+class WemakepriceCrawler(Crawler):
+    def __init__(self):
+        return
+
+    def find(self, keyword):
+       driver = webdriver.Chrome('./chromedriver')
+       driver.get('https://www.naver.com')

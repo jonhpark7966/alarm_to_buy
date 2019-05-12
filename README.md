@@ -8,3 +8,7 @@ Alarm bots for hot deals!
 ## How To Use
 
 - Refer sample scritps!
+- Dependency
+  - Selenium: pip3 install selenium
+  - Chrome Driver
+  - BeautifulSoup pip3 install bs4
